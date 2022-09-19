@@ -31,7 +31,7 @@ async def getStreamlink(bot, message):
         
     try:
         await message.reply(
-            text=f"https://cdn.hagadmansa.com/{getNew(fileId(message))[0]}",
+            text=f"{Var.URL}{getNew(fileId(message))[0]}",
             quote=True
         )
     except Exception as e:
