@@ -48,7 +48,7 @@ async def stream_handler(request: web.Request):
     elif len(path) > 34:
         return web.HTTPFound(Var.REDIRECT_TO)
     else:
-        try:
+        """try:
             message = await StreamBot.send_cached_media(Var.BIN_CHANNEL, path)
         except ValueError:
             return web.json_response(
@@ -74,7 +74,9 @@ async def stream_handler(request: web.Request):
                     "tip": "Send us the URL too as a evidence, so that we can understand actual error."
                 }
             ) 
-        return await media_streamer(request, message.id)
+        return await media_streamer(request, message.id)"""
+        async for chunk in StreamBot.stream_media(path):
+            print(len(chunk))
 
 class_cache = {}
 
