@@ -5,7 +5,7 @@ import logging
 from pyrogram import filters
 from WebStreamer.vars import Var
 from WebStreamer.bot import StreamBot
-from WebStreamer.utils.file_properties import getNew, fileId
+from WebStreamer.utils.file_properties import getNew, fileId, fileSize
 
 @StreamBot.on_message(
     filters.private
@@ -31,7 +31,7 @@ async def getStreamlink(bot, message):
         
     try:
         await message.reply(
-            text=f"{Var.URL}{getNew(fileId(message))[0]}",
+            text=f"{Var.URL}{getNew(fileId(message))[0]}/{fileSize(message)}/",
             quote=True
         )
     except Exception as e:
