@@ -15,6 +15,7 @@ import asyncio
 import mimetypes
 from aiohttp import web
 from WebStreamer.vars import Var
+from WebStreamer.utils.human import humanbytes
 from aiohttp.http_exceptions import BadStatusLine
 from WebStreamer.bot import multi_clients, work_loads
 from WebStreamer.server.exceptions import FIleNotFound, InvalidHash
