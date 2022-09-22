@@ -72,18 +72,18 @@ async def root_route_handler(_):
 @routes.get(r"/{path}/{filesize}/{filename}", allow_head=True)
 async def stream_handler(request: web.Request):
     
-    path = request.match_info["path"]
-    filesize = humanbytes(request.match_info["filesize"])
-    filename = request.match_info["filename"]
-    print(path)
-    print(filesize)
-    print(filename)
+        path = request.match_info["path"]
+        filesize = humanbytes(request.match_info["filesize"])
+        filename = request.match_info["filename"]
+        print(path)
+        print(filesize)
+        print(filename)
     
     """if len(path) < 30:
         return web.HTTPFound(Var.REDIRECT_TO)
     elif len(path) > 34:
         return web.HTTPFound(Var.REDIRECT_TO)"""
-    else:
+    
         try:
             message = await StreamBot.send_cached_media(Var.BIN_CHANNEL, path)
         except ValueError:
