@@ -74,9 +74,6 @@ async def stream_handler(request: web.Request):
     
         path = request.match_info["path"]
         filename = request.match_info["filename"]
-        print(path)
-        print(filesize)
-        print(filename)
     
         try:
             message = await StreamBot.send_cached_media(chat_id=Var.BIN_CHANNEL, file_id=path, caption=filename)
@@ -84,24 +81,21 @@ async def stream_handler(request: web.Request):
             return web.json_response(
                 {
                     "error": "The media you are trying to get is invalid.",
-                    "solution": "Either mail us at error@hagadmansa.com or report it on Telegram at @HagadmansaChat.",
-                    "tip": "Send us the URL too as a evidence, so that we can understand actual error."
+                    "solution": "Either mail us at error@hagadmansa.com or report it on Telegram at @HagadmansaChat."
                 }
             )
         except ChannelPrivate:
             return web.json_response(
                 {
                     "error": "Oh No! somehow the BIN_CHANNEL was deleted.",
-                    "solution": "Either mail us at error@hagadmansa.com or report it on Telegram at @HagadmansaChat.",
-                    "tip": "Send us the URL too as a evidence, so that we can understand actual error."
+                    "solution": "Either mail us at error@hagadmansa.com or report it on Telegram at @HagadmansaChat."
                 }
             )
         except Exception as e:
             return web.json_response(
                 {
                     "error": e, 
-                    "solution": "Either mail us at error@hagadmansa.com or report it on Telegram at @HagadmansaChat.",
-                    "tip": "Send us the URL too as a evidence, so that we can understand actual error."
+                    "solution": "Either mail us at error@hagadmansa.com or report it on Telegram at @HagadmansaChat."
                 }
             ) 
         return await media_streamer(request, message.id, filename)
@@ -149,20 +143,20 @@ async def media_streamer(request: web.Request, message_id: int, filename):
     )
 
     mime_type = file_id.mime_type
-    file_name = filename
+    file_name = filename.replace('%20', ' ')
     disposition = "attachment"
     if mime_type:
         if not file_name:
             try:
-                file_name = filename
+                file_name = filename.replace('%20', ' ')
             except (IndexError, AttributeError):
-                file_name = filename
+                file_name = filename.replace('%20', ' ')
     else:
         if file_name:
-            mime_type = mimetypes.guess_type(file_id.file_name)
+            mime_type = mimetypes.guess_type(filename.replace('%20', ' '))
         else:
             mime_type = "application/octet-stream"
-            file_name = filename
+            file_name = filename.replace('%20', ' ')
     return_resp = web.Response(
         status=206 if range_header else 200,
         body=body,
