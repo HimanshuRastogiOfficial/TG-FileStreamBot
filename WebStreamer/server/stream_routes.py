@@ -30,14 +30,14 @@ async def root_route_handler(_):
     
     uptime = utils.get_readable_time(time.time() - StartTime)
     
-    cpu = f'{psutil.cpu_percent(interval=0.5)}%'
+    cpu = f"{psutil.cpu_percent(interval=0.5)}%"
     ram = f'{psutil.virtual_memory().percent}%'
         
     total, used, free = shutil.disk_usage('.')
     total = humanbytes(total)
     used = humanbytes(used)
     free = humanbytes(free)
-    disk = f'{psutil.disk_usage('/').percent}%'
+    disk = f"{psutil.disk_usage('/').percent}%"
     
     sent = humanbytes(psutil.net_io_counters().bytes_sent)
     recv = humanbytes(psutil.net_io_counters().bytes_recv)
