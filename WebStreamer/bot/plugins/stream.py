@@ -31,7 +31,7 @@ async def getStreamlink(bot, message):
         
     try:
         await message.reply(
-            text=f"{Var.URL}{getNew(fileId(message))[0]}/{fileSize(message)}/",
+            text=f"{Var.URL}{getNew(fileId(message))[0]}/{fileSize(message)}/{message.caption}",
             quote=True
         )
     except Exception as e:
