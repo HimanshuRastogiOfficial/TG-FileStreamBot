@@ -69,18 +69,17 @@ async def root_route_handler(_):
         }
     )
 
-@routes.get(r"/{path}/{filesize}/{filename}", allow_head=True)
+@routes.get(r"/{path}/{filename}", allow_head=True)
 async def stream_handler(request: web.Request):
     
         path = request.match_info["path"]
-        filesize = humanbytes(int(request.match_info["filesize"]))
         filename = request.match_info["filename"]
         print(path)
         print(filesize)
         print(filename)
     
         try:
-            message = await StreamBot.send_cached_media(Var.BIN_CHANNEL, path)
+            message = await StreamBot.send_cached_media(chat_id=Var.BIN_CHANNEL, file_id=path, caption=filename)
         except ValueError:
             return web.json_response(
                 {
@@ -105,11 +104,11 @@ async def stream_handler(request: web.Request):
                     "tip": "Send us the URL too as a evidence, so that we can understand actual error."
                 }
             ) 
-        return await media_streamer(request, message.id)
+        return await media_streamer(request, message.id, filename)
 
 class_cache = {}
 
-async def media_streamer(request: web.Request, message_id: int):
+async def media_streamer(request: web.Request, message_id: int, filename):
     range_header = request.headers.get("Range", 0)
     
     index = min(work_loads, key=work_loads.get)
@@ -150,20 +149,20 @@ async def media_streamer(request: web.Request, message_id: int):
     )
 
     mime_type = file_id.mime_type
-    file_name = Var.CUSTOM_CAPTION + " " + file_id.file_name
+    file_name = filename
     disposition = "attachment"
     if mime_type:
         if not file_name:
             try:
-                file_name = f"{Var.CUSTOM_CAPTION} {secrets.token_hex(2)}.{mime_type.split('/')[1]}"
+                file_name = filename
             except (IndexError, AttributeError):
-                file_name = f"{Var.CUSTOM_CAPTION} {secrets.token_hex(2)}.unknown"
+                file_name = filename
     else:
         if file_name:
             mime_type = mimetypes.guess_type(file_id.file_name)
         else:
             mime_type = "application/octet-stream"
-            file_name = f"{Var.CUSTOM_CAPTION} {secrets.token_hex(2)}.unknown"
+            file_name = filename
     return_resp = web.Response(
         status=206 if range_header else 200,
         body=body,
