@@ -70,6 +70,22 @@ def fileId(message: "Message") -> Any:
         media = getattr(message, attr, None)
         if media:
             return media.file_id
+        
+def fileSize(message: "Message") -> Any:
+    media_types = (
+        "audio",
+        "document",
+        "photo",
+        "sticker",
+        "animation",
+        "video",
+        "voice",
+        "video_note",
+    )
+    for attr in media_types:
+        media = getattr(message, attr, None)
+        if media:
+            return media.file_size
 
 def encode_file_id(s: bytes) -> str:
     r = b""
