@@ -79,11 +79,6 @@ async def stream_handler(request: web.Request):
         print(filesize)
         print(filename)
     
-    """if len(path) < 30:
-        return web.HTTPFound(Var.REDIRECT_TO)
-    elif len(path) > 34:
-        return web.HTTPFound(Var.REDIRECT_TO)"""
-    
         try:
             message = await StreamBot.send_cached_media(Var.BIN_CHANNEL, path)
         except ValueError:
