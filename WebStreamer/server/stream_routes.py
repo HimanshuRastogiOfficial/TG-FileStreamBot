@@ -73,7 +73,7 @@ async def root_route_handler(_):
 async def stream_handler(request: web.Request):
     
         path = request.match_info["path"]
-        filesize = humanbytes(request.match_info["filesize"])
+        filesize = humanbytes(int(request.match_info["filesize"]))
         filename = request.match_info["filename"]
         print(path)
         print(filesize)
