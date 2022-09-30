@@ -7,4 +7,4 @@ async def start(bot, message):
     if message.from_user.id not in [1250003833, 5099088450]:
         return
     else:
-        message.reply("Hey, I'm Alive.")
+        await message.reply("Hey, I'm Alive.")
