@@ -18,6 +18,9 @@ async def getStreamlink(bot, message):
     if not replied:
         return await message.reply("Reply to a message.")
     
+    if not replied.captio:
+        return await message.reply("Give me a file name as a Quote.")
+    
     if replied.photo:
         return await message.reply(
             text="Don't send me photos, send them as document.",
