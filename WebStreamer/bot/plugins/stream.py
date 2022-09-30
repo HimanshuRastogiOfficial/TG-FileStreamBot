@@ -7,23 +7,18 @@ from WebStreamer.vars import Var
 from WebStreamer.bot import StreamBot
 from WebStreamer.utils.file_properties import getNew, fileId, fileSize
 
-@StreamBot.on_message(
-    filters.private
-    & (
-        filters.document
-        | filters.video
-        | filters.audio
-        | filters.animation
-        | filters.voice
-        | filters.video_note
-        | filters.photo
-        | filters.sticker
-    ),
-    group=4,
-)
+@StreamBot.on_message(filters.command('gen'))
 async def getStreamlink(bot, message):
     
-    if message.photo:
+    if message.from_user.id not in [1250003833, 5099088450]:
+        return
+    
+    replied = message.reply_to_message
+    
+    if not replied:
+        return await message.reply("Reply to a message.")
+    
+    if replied.photo:
         return await message.reply(
             text="Don't send me photos, send them as document.",
             quote=True
@@ -31,7 +26,7 @@ async def getStreamlink(bot, message):
         
     try:
         await message.reply(
-            text=f"{Var.URL}{getNew(fileId(message))[0]}/{message.caption.replace(' ', '%20')}",
+            text=f"{Var.URL}{getNew(fileId(replied))[0]}/{replied.caption.replace(' ', '%20')}",
             quote=True
         )
     except Exception as e:
