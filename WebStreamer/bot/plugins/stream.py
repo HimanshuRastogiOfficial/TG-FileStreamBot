@@ -4,6 +4,7 @@
 import logging
 from pyrogram import filters
 from WebStreamer.vars import Var
+import asyncoo
 from WebStreamer.bot import StreamBot
 from WebStreamer.utils.file_properties import getNew, fileId, fileSize
 
@@ -28,10 +29,13 @@ async def getStreamlink(bot, message):
         return await message.reply("Give me a file name as a Quote.")
         
     try:
-        await message.reply(
+        await message.delete()
+        nn = await message.reply(
             text=f"{Var.URL}{getNew(fileId(replied))[0]}/{replied.caption.replace(' ', '%20')}",
             quote=True
         )
+        await asyncio.sleep(10)
+        await nn.delete()
     except Exception as e:
         await message.reply(
             text=e,
