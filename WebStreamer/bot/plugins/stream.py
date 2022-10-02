@@ -2,9 +2,9 @@
 # Coding : Jyothis Jayanth [@EverythingSuckz]
 
 import logging
+import asyncio
 from pyrogram import filters
 from WebStreamer.vars import Var
-import asyncoo
 from WebStreamer.bot import StreamBot
 from WebStreamer.utils.file_properties import getNew, fileId, fileSize
 
