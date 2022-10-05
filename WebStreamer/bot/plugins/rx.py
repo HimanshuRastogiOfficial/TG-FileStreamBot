@@ -1,7 +1,6 @@
 import os
 import time
 import traceback
-from helper import progress
 #from pyrogram import FloodWait
 from WebStreamer.bot import StreamBot
 from WebStreamer.utils.progress import progress
@@ -10,7 +9,7 @@ def listToString(s):
   str1 = " "
   return (str1.join(s))
   
-@StreamBot.on_message(filters.command(["rx"], ["."]))
+@StreamBot.on_message(filters.command("rx"))
 async def rename(bot, message):
   
   try:
