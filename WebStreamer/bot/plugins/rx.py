@@ -4,7 +4,7 @@ import traceback
 from helper import progress
 #from pyrogram import FloodWait
 from WebStreamer.bot import StreamBot
-from WebStreamer.bot.utils.helper import progress
+from WebStreamer.utils.progress import progress
 
 def listToString(s):
   str1 = " "
