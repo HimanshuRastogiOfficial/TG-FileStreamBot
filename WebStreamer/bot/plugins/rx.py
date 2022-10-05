@@ -38,7 +38,7 @@ async def rename(bot, message):
         time_ = time.time()
         await message.reply_document(
             document=location,
-            thumb='resources/hagadmansa.png',
+            thumb='WebStreamer/resources/hagadmansa.png',
             caption=caption,
             progress=progress,
             reply_to_message_id=message.reply_to_message.id,
