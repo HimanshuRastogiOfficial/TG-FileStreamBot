@@ -75,7 +75,7 @@ async def stream_handler(request: web.Request):
         path = request.match_info["path"]
         filename = request.match_info["filename"]
         
-        if len(path + filename) < 40:
+        if len(path + filename) < 35:
             return web.json_response(
                 {
                     "error": "This link is invalid.",
