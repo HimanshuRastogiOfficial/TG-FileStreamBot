@@ -1,6 +1,7 @@
 import io
 import sys
 import traceback
+from pyrogram import filters
 from WebStreamer.bot import StreamBot
 
 MAX_MESSAGE_LENGTH = 4096
