@@ -1,5 +1,6 @@
 import os
 import time
+import shutil
 import traceback
 from pyrogram import filters
 #from pyrogram import FloodWait
