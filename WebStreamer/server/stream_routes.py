@@ -18,10 +18,10 @@ from WebStreamer.vars import Var
 from WebStreamer.utils.human import humanbytes
 from aiohttp.http_exceptions import BadStatusLine
 from WebStreamer.bot import multi_clients, work_loads
+from pyrogram.errors.exceptions.bad_request_400 import MediaEmpty
 from WebStreamer.server.exceptions import FIleNotFound, InvalidHash
 from WebStreamer import Var, utils, StartTime, __version__, StreamBot
 from pyrogram.errors.exceptions.not_acceptable_406 import ChannelPrivate
-
 
 routes = web.RouteTableDef()
 
@@ -74,10 +74,25 @@ async def stream_handler(request: web.Request):
     
         path = request.match_info["path"]
         filename = request.match_info["filename"]
+        
+        if not filename:
+            return web.json_response(
+                {
+                    "error": "This link is invalid.",
+                    "solution": "Either mail us at error@hagadmansa.com or report it on Telegram at @HagadmansaChat."
+                }
+            )
     
         try:
             message = await StreamBot.send_cached_media(chat_id=Var.BIN_CHANNEL, file_id=path, caption=filename)
         except ValueError:
+            return web.json_response(
+                {
+                    "error": "The media you are trying to get is invalid.",
+                    "solution": "Either mail us at error@hagadmansa.com or report it on Telegram at @HagadmansaChat."
+                }
+            )
+        except MediaEmpty:
             return web.json_response(
                 {
                     "error": "The media you are trying to get is invalid.",
