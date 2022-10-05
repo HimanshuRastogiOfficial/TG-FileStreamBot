@@ -75,7 +75,7 @@ async def stream_handler(request: web.Request):
         path = request.match_info["path"]
         filename = request.match_info["filename"]
         
-        if ("www.Hagadmansa.com" or "@Hagadmansa") not in filename:
+        if "www.Hagadmansa.com" not in filename:
             return web.json_response(
                 {
                     "error": "This link is invalid.",
