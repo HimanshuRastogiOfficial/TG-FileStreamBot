@@ -1,17 +1,7 @@
 import os, glob
 from pyrogram import filters
 from WebStreamer.bot import StreamBot
-
-def hb(size):
-    if not size:
-        return ""
-    power = 2 ** 10
-    n = 0
-    Dic_powerN = {0: 'B', 1: 'KB', 2: 'MB', 3: 'GB', 4: 'TB'}
-    while size > power:
-        size /= power
-        n += 1
-    return str(round(size, 2)) + " " + Dic_powerN[n]
+from WebStreamer.utils.human import humanbytes as hb
 
 @StreamBot.on_message(filters.command("ls"))
 async def list(bot, message):
