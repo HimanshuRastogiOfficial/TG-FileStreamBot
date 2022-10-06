@@ -2,7 +2,9 @@ import os
 import time
 import shutil
 import traceback
+from pytz import timezone 
 from pyrogram import filters
+from datetime import datetime
 #from pyrogram import FloodWait
 from WebStreamer.bot import StreamBot
 from WebStreamer.utils.progress import progress
@@ -26,7 +28,8 @@ async def rename(bot, message):
      
         file_name = message.text.split('|')[0][18::]
         caption = message.text.split('|')[1]
-        location = f"downloads/{file_name}/{file_name}"
+        t = datetime.now(timezone("Asia/Kolkata")).strftime('%H:%M:%S')
+        location = f"downloads/{t}/{file_name}"
         
         time_ = time.time()
         await bot.download_media(
@@ -45,7 +48,7 @@ async def rename(bot, message):
             reply_to_message_id=message.reply_to_message.id,
             progress_args=(f'**Name:** `{file_name}`\n**Status:** Uploading...', rn, time_)
         )
-        shutil.rmtree(f"downloads/{file_name}")
+        shutil.rmtree(f"downloads/{t}")
         await rn.delete()
     else:
         await rn.edit('Reply to file and provide a new name.')
@@ -53,5 +56,6 @@ async def rename(bot, message):
       #await asyncio.sleep(f.x)
   except Exception as e:
       txt = traceback.format_exc() 
+      shutil.rmtree(f"downloads/{t}")
       await message.reply(f"**Traceback Info:**\n`{txt}`\n**Error Text:**\n`{e}`")
       return await rn.delete()
